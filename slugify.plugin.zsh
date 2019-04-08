@@ -55,7 +55,7 @@ function slugify() {
     shift "$(( $OPTIND - 1 ))"
 
     ## Unless source_file arg(s) found, print usage and exit (0 to avoid breaking pipes)
-    if [[ ! -n "$1" ]]; then
+    if [[ -z "$1" ]]; then
       print_usage
       exit 0
     fi
