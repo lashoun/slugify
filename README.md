@@ -1,6 +1,13 @@
-# Plugify
+# Slugify
 
-Slugify is a zsh plugin that converts filenames and directories to a web friendly format. Converted from the bash command [slugify](https://github.com/benlinton/slugify).
+Slugify is a ZSH plugin that converts filenames and directories to a web friendly format. Converted from the bash command [slugify](https://github.com/benlinton/slugify).
+
+## Installation
+
+I recommend [zplug](https://github.com/zplug/zplug). Add the following line in your `.zshrc`.
+```zsh
+zplug "agkozak/zsh-z"
+```
 
 ## Usage Help
 
