@@ -41,23 +41,23 @@ function slugify() {
         a) dashes_omit_adjacent_spaces=1 ;;
         c) consolidate_spaces=1 ;;
         d) space_replace_char='-' ;;
-        h) print_usage; exit 0 ;;
+        h) print_usage; return 0 ;;
         i) ignore_case=1 ;;
         n) dry_run=1 ;;
         t) dashes_to_spaces=1 ;;
         u) underscores_to_spaces=1 ;;
         v) verbose=1 ;;
-        *) exit 1 ;;
+        *) return 1 ;;
       esac
     done
 
     ## Remove options from args
     shift "$(( $OPTIND - 1 ))"
 
-    ## Unless source_file arg(s) found, print usage and exit (0 to avoid breaking pipes)
+    ## Unless source_file arg(s) found, print usage and return (0 to avoid breaking pipes)
     if [[ -z "$1" ]]; then
       print_usage
-      exit 0
+      return 0
     fi
 
     ## Identify case insensitive filesystems
