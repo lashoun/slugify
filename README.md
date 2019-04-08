@@ -1,6 +1,6 @@
-# Bash Command: Slugify
+# Plugify
 
-Slugify is a bash command that converts filenames and directories to a web friendly format.
+Slugify is a zsh plugin that converts filenames and directories to a web friendly format. Converted from the bash command [slugify](https://github.com/benlinton/slugify).
 
 ## Usage Help
 
