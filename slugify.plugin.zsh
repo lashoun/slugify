@@ -119,8 +119,8 @@ function slugify() {
       ## Handle moving the source to target
       if [ "$target" == "$source" ]; then
         ## If filename hasn't changed, skip move
-        ## Print if verbose is true
-        if [ $verbose -eq 1 ]; then
+        ## Print if verbose or dry_run is true
+        if [ $verbose -eq 1 -o $dry_run -eq 1 ]; then
           echo "ignore: $source"
         fi
       elif [ -e "$target" -a $case_sensitive_filesystem -eq 1 ]; then
