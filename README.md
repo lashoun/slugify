@@ -6,7 +6,7 @@ Slugify is a ZSH plugin that converts filenames and directories to a web friendl
 
 I recommend [zplug](https://github.com/zplug/zplug). Add the following line in your `.zshrc`.
 ```zsh
-zplug "agkozak/zsh-z"
+zplug "lashoun/slugify"
 ```
 
 ## Usage Help
