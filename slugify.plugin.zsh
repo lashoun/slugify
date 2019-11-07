@@ -9,6 +9,7 @@ function slugify() {
     ## Initialize defaults
     script_name=${0##*/}
     dashes_omit_adjacent_spaces=0
+    dots_omit_adjacent_spaces=0
     consolidate_spaces=0
     space_replace_char='_'
     ignore_case=0
@@ -19,12 +20,13 @@ function slugify() {
     verbose=0
 
     ## Initialize valid options
-    opt_string=acdhinptuv
+    opt_string=abcdhinptuv
 
     ## Usage function
     function print_usage(){
       echo "usage: $script_name [-$opt_string] source_file ..."
       echo "   -a: remove spaces immediately adjacent to dashes"
+      echo "   -b: remove spaces immediately adjacent to dots"
       echo "   -c: consolidate consecutive spaces into single space"
       echo "   -d: replace spaces with dashes (instead of default underscores)"
       echo "   -h: help"
@@ -41,6 +43,7 @@ function slugify() {
     do
       case $opt in
         a) dashes_omit_adjacent_spaces=1 ;;
+        b) dots_omit_adjacent_spaces=1 ;;
         c) consolidate_spaces=1 ;;
         d) space_replace_char='-' ;;
         h) print_usage; return 0 ;;
@@ -117,8 +120,14 @@ function slugify() {
 
       ## Optionally remove spaces immediately adjacent to dashes
       if [ $dashes_omit_adjacent_spaces -eq 1 ]; then
-        target=$(echo "$target" | sed 's/\- /-/g')
-        target=$(echo "$target" | sed 's/ \-/-/g')
+        target=$(echo "$target" | sed 's/\. /-/g')
+        target=$(echo "$target" | sed 's/ \./-/g')
+      fi
+
+      ## Optionally remove spaces immediately adjacent to dots
+      if [ $dots_omit_adjacent_spaces -eq 1 ]; then
+        target=$(echo "$target" | sed 's/\. /./g')
+        target=$(echo "$target" | sed 's/ \././g')
       fi
 
       ## Replace spaces with underscores or dashes
