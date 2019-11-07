@@ -13,7 +13,7 @@ function slugify() {
     space_replace_char='_'
     ignore_case=0
     dry_run=0
-    nonalnum_tospaces=0
+    nonalnum_to_spaces=0
     dashes_to_spaces=0
     underscores_to_spaces=0
     verbose=0
