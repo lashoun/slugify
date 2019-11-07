@@ -13,6 +13,7 @@ function slugify() {
     space_replace_char='_'
     ignore_case=0
     dry_run=0
+    nonalnum_tospaces=0
     dashes_to_spaces=0
     underscores_to_spaces=0
     verbose=0
@@ -29,6 +30,7 @@ function slugify() {
       echo "   -h: help"
       echo "   -i: ignore case"
       echo "   -n: dry run"
+      echo "   -p: treat existing non alpha-numeric characters as spaces"
       echo "   -t: treat existing dashes as spaces"
       echo "   -u: treat existing underscores as spaces (useful with -a, -c, or -d)"
       echo "   -v: verbose"
@@ -44,6 +46,7 @@ function slugify() {
         h) print_usage; return 0 ;;
         i) ignore_case=1 ;;
         n) dry_run=1 ;;
+        p) nonalnum_to_spaces=1 ;;
         t) dashes_to_spaces=1 ;;
         u) underscores_to_spaces=1 ;;
         v) verbose=1 ;;
@@ -95,6 +98,11 @@ function slugify() {
       ## Optionally convert existing underscores to spaces
       if [ $underscores_to_spaces -eq 1 ]; then
         target=$(echo "$target" | tr _ ' ')
+      fi
+
+      ## Optionally convert existing non alpha-numeric characters to spaces
+      if [ $nonalnum_to_spaces -eq 1 ]; then
+        target=$(echo "$target" | tr -c '[:alnum:]' ' ')
       fi
 
       ## Optionally convert existing dashes to spaces
