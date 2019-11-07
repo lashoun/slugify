@@ -102,7 +102,7 @@ function slugify() {
 
       ## Optionally convert existing non alpha-numeric characters to spaces
       if [ $nonalnum_to_spaces -eq 1 ]; then
-        target=$(echo "$target" | tr -c '[:alnum:]' ' ')
+        target=$(echo "$target" | tr -c '[:alnum:]\n' ' ')
       fi
 
       ## Optionally convert existing dashes to spaces
