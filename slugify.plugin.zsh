@@ -19,7 +19,7 @@ function slugify() {
     verbose=0
 
     ## Initialize valid options
-    opt_string=acdhintuv
+    opt_string=acdhinptuv
 
     ## Usage function
     function print_usage(){
