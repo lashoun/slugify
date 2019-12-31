@@ -139,8 +139,8 @@ function slugify() {
 
       ## Optionally remove spaces immediately adjacent to dashes
       if [ $dashes_omit_adjacent_spaces -eq 1 ]; then
-        target=$(echo "$target" | sed 's/\. /-/g')
-        target=$(echo "$target" | sed 's/ \./-/g')
+        target=$(echo "$target" | sed 's/\- /-/g')
+        target=$(echo "$target" | sed 's/ \-/-/g')
       fi
 
       ## Optionally remove spaces immediately adjacent to dots
