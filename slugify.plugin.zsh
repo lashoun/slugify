@@ -11,6 +11,7 @@ function slugify() {
     dashes_omit_adjacent_spaces=0
     dots_omit_adjacent_spaces=0
     consolidate_spaces=0
+    keep_special_characters=0
     space_replace_char='_'
     ignore_case=0
     dry_run=0
@@ -20,7 +21,7 @@ function slugify() {
     verbose=0
 
     ## Initialize valid options
-    opt_string=abcdhinptuv
+    opt_string=abcdehinptuv
 
     ## Usage function
     function print_usage(){
@@ -29,6 +30,7 @@ function slugify() {
       echo "   -b: remove spaces immediately adjacent to dots"
       echo "   -c: consolidate consecutive spaces into single space"
       echo "   -d: replace spaces with dashes (instead of default underscores)"
+      echo "   -e: do not replace special characters with regular characters"
       echo "   -h: help"
       echo "   -i: ignore case"
       echo "   -n: dry run"
@@ -46,6 +48,7 @@ function slugify() {
         b) dots_omit_adjacent_spaces=1 ;;
         c) consolidate_spaces=1 ;;
         d) space_replace_char='-' ;;
+        e) keep_special_characters=1 ;;
         h) print_usage; return 0 ;;
         i) ignore_case=1 ;;
         n) dry_run=1 ;;
@@ -92,6 +95,22 @@ function slugify() {
 
       ## Initialize target
       target="$source"
+      
+      ## Optionally convert special characters to regular characters
+      if [ $keep_special_characters -eq 0 ]; then
+        target=$(echo "$target" | sed -e "s/[ÊËÉÈ]/E/g" )
+        target=$(echo "$target" | sed -e "s/[ÂÄÀÁ]/A/g" )
+        target=$(echo "$target" | sed -e "s/[ÔÖÒÓ]/O/g" )
+        target=$(echo "$target" | sed -e "s/[ÛÜÙÚ]/U/g" )
+        target=$(echo "$target" | sed -e "s/[ÏÎÌÍ]/I/g" )
+        target=$(echo "$target" | sed -e "s/Œ/OE/g" )
+        target=$(echo "$target" | sed -e "s/[êëéè]/e/g" )
+        target=$(echo "$target" | sed -e "s/[âäàá]/a/g" )
+        target=$(echo "$target" | sed -e "s/[ôöòó]/o/g" )
+        target=$(echo "$target" | sed -e "s/[ûüùú]/u/g" )
+        target=$(echo "$target" | sed -e "s/[ïîìí]/i/g" )
+        target=$(echo "$target" | sed -e "s/œ/oe/g" )
+      fi
 
       ## Optionally convert to lowercase
       if [ $ignore_case -eq 0 ]; then
