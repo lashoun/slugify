@@ -16,12 +16,13 @@ function slugify() {
     ignore_case=0
     dry_run=0
     nonalnum_to_spaces=0
+    nonalnumordash_to_spaces=0
     dashes_to_spaces=0
     underscores_to_spaces=0
     verbose=0
 
     ## Initialize valid options
-    opt_string=abcdehinptuv
+    opt_string=abcdefhinptuv
 
     ## Usage function
     function print_usage(){
@@ -31,6 +32,7 @@ function slugify() {
       echo "   -c: consolidate consecutive spaces into single space"
       echo "   -d: replace spaces with dashes (instead of default underscores)"
       echo "   -e: do not replace special characters with regular characters"
+      echo "   -f: treat existing non alpha-numeric characters (except dashes) as spaces"
       echo "   -h: help"
       echo "   -i: ignore case"
       echo "   -n: dry run"
@@ -49,6 +51,7 @@ function slugify() {
         c) consolidate_spaces=1 ;;
         d) space_replace_char='-' ;;
         e) keep_special_characters=1 ;;
+        f) nonalnumordash_to_spaces=1 ;;
         h) print_usage; return 0 ;;
         i) ignore_case=1 ;;
         n) dry_run=1 ;;
@@ -125,6 +128,11 @@ function slugify() {
       ## Optionally convert existing non alpha-numeric characters to spaces
       if [ $nonalnum_to_spaces -eq 1 ]; then
         target=$(echo "$target" | tr -c '[:alnum:].\n' ' ')
+      fi
+
+      ## Optionally convert existing non alpha-numeric characters, except dashes, to spaces
+      if [ $nonalnumordash_to_spaces -eq 1 ]; then
+        target=$(echo "$target" | tr -c '[:alnum:]-.\n' ' ')
       fi
 
       ## Optionally convert existing dashes to spaces
