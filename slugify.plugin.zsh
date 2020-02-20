@@ -113,6 +113,8 @@ function slugify() {
         target=$(echo "$target" | sed -e "s/[ûüùú]/u/g" )
         target=$(echo "$target" | sed -e "s/[ïîìí]/i/g" )
         target=$(echo "$target" | sed -e "s/œ/oe/g" )
+        target=$(echo "$target" | sed -e "s/Ç/C/g" )
+        target=$(echo "$target" | sed -e "s/ç/c/g" )
       fi
 
       ## Optionally convert to lowercase
