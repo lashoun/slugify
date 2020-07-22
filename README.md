@@ -13,17 +13,23 @@ zplug "lashoun/slugify"
 
 Simply enter the slugify command without any arguments or with the -h option to view the usage help.
 
-    $ slugify
-    usage: slugify [-acdhintuv] source_file ...
-       -a: remove spaces immediately adjacent to dashes
-       -c: consolidate consecutive spaces into single space
-       -d: replace spaces with dashes (instead of default underscores)
-       -h: help
-       -i: ignore case
-       -n: dry run
-       -t: treat existing dashes as spaces
-       -u: treat existing underscores as spaces (useful with -a, -c, or -d)
-       -v: verbose
+```
+$ slugify -h
+usage: slugify [-abcdefhinptuv] source_file ...
+   -a: remove spaces immediately adjacent to dashes
+   -b: remove spaces immediately adjacent to dots
+   -c: consolidate consecutive spaces into single space
+   -d: replace spaces with dashes (instead of default underscores)
+   -e: do not replace special characters with regular characters
+   -f: treat existing non alpha-numeric characters (except dashes) as spaces
+   -h: help
+   -i: ignore case
+   -n: dry run
+   -p: treat existing non alpha-numeric characters as spaces
+   -t: treat existing dashes as spaces
+   -u: treat existing underscores as spaces (useful with -a, -c, or -d)
+   -v: verbose
+```
 
 ## Usage Examples
 
