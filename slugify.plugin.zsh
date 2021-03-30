@@ -38,7 +38,7 @@ function slugify() {
     echo "   -f: treat existing non alpha-numeric characters (except dashes) as spaces"
     echo "   -h: help"
     echo "   -i: ignore case"
-    echo "   -j: interactive"
+    echo "   -j: interactive mode (dry run enforced)"
     echo "   -n: dry run"
     echo "   -p: treat existing non alpha-numeric characters as spaces"
     echo "   -s: do not trim leading and trailing spaces"
@@ -48,8 +48,9 @@ function slugify() {
     echo "   -x: copy to clipboard (WSL)"
   }
 
-  ## Slug function
-  function slug() {
+  ## Slugedit function
+  function slugedit() {
+    
     ## Initialize target
     target=$source
 
@@ -138,15 +139,14 @@ function slugify() {
         mv "$source" "$target"
       fi
       ## Print if verbose or dry_run is true
-      if [ $verbose -eq 1 || $dry_run -eq 1 ]; then
+      if [ $verbose -eq 1 -o $dry_run -eq 1 ]; then
         echo "rename: $source -> $target"
       fi
       ## Copy to clipboard if clipboard is true
       if [ $clipboard -eq 1 ]; then
-        echo "$target" | clip.exe
+        echo -n "$target" | clip.exe
       fi
     fi
-
   }
 
   ## For each provided option arg
@@ -185,6 +185,7 @@ function slugify() {
 
     ## Unless source_file arg(s) found, print usage and return (0 to avoid breaking pipes)
     if [[ $interactive -eq 0 && -z "$1" ]]; then
+      echo "Error: missing source file."
       print_usage
       return 0
     fi
@@ -209,23 +210,16 @@ function slugify() {
         fi
       fi
 
-      slug
+      slugedit
 
     done
   else
+    dry_run=1
     while true; do
       read source\?'Source: '
 
-      ## Verify source exists
-      if [ ! -e "$source" ]; then
-        echo "not found: $source"
-        ## Skip to next loop iteration unless in dry run mode
-        if [ $dry_run -eq 0 ]; then
-          continue
-        fi
-      fi
-
-      slug
+      slugedit
+      echo ""
 
     done
   fi
@@ -235,3 +229,5 @@ function slugify() {
     echo "--- End dry run mode."
   fi
 }
+
+slugify -abcfnx " hwefjwEWFE"
