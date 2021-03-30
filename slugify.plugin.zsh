@@ -17,13 +17,14 @@ function slugify() {
     dry_run=0
     nonalnum_to_spaces=0
     nonalnumordash_to_spaces=0
+    trim_lead_trail_spaces=1
     dashes_to_spaces=0
     underscores_to_spaces=0
     verbose=0
     clipboard=0
 
     ## Initialize valid options
-    opt_string=abcdefhinptuvx
+    opt_string=abcdefhinpstuvx
 
     ## Usage function
     function print_usage(){
@@ -38,6 +39,7 @@ function slugify() {
       echo "   -i: ignore case"
       echo "   -n: dry run"
       echo "   -p: treat existing non alpha-numeric characters as spaces"
+      echo "   -s: do not trim leading and trailing spaces"
       echo "   -t: treat existing dashes as spaces"
       echo "   -u: treat existing underscores as spaces (useful with -a, -c, or -d)"
       echo "   -v: verbose"
@@ -58,6 +60,7 @@ function slugify() {
         i) ignore_case=1 ;;
         n) dry_run=1 ;;
         p) nonalnum_to_spaces=1 ;;
+        s) trim_lead_trail_spaces=0 ;;
         t) dashes_to_spaces=1 ;;
         u) underscores_to_spaces=1 ;;
         v) verbose=1 ;;
@@ -160,6 +163,11 @@ function slugify() {
       if [ $dots_omit_adjacent_spaces -eq 1 ]; then
         target=$(echo "$target" | sed 's/\. /./g')
         target=$(echo "$target" | sed 's/ \././g')
+      fi
+
+      ## Remove leading and trailing spaces unless explicitly told not to
+      if [ $trim_lead_trail_spaces -eq 1 ]; then
+        target=$(echo "$target" | xargs echo -n)
       fi
 
       ## Replace spaces with underscores or dashes
