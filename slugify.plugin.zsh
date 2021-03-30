@@ -214,7 +214,7 @@ function slugify() {
     done
   else
     while true; do
-      read -p 'Source: ' source
+      read source\?'Source: '
 
       ## Verify source exists
       if [ ! -e "$source" ]; then
