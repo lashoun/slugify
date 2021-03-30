@@ -51,7 +51,7 @@ function slugify() {
   ## Slug function
   function slug() {
     ## Initialize target
-    target="$*"
+    target=$source
 
     ## Optionally convert special characters to regular characters
     if [ $keep_special_characters -eq 0 ]; then
@@ -209,7 +209,7 @@ function slugify() {
         fi
       fi
 
-      slug $source
+      slug
 
     done
   else
@@ -225,7 +225,8 @@ function slugify() {
         fi
       fi
 
-      slug $source
+      slug
+
     done
   fi
 
