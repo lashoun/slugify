@@ -1,7 +1,7 @@
 #: Name        : slugify
 #: Date        : 2019-04-08
 #: Author      : "lashoun"
-#: Version     : 1.1.0
+#: Version     : 1.2.0
 #: Description : Convert filenames into a web friendly format.
 #: Options     : See print_usage() function.
 
@@ -20,9 +20,10 @@ function slugify() {
     dashes_to_spaces=0
     underscores_to_spaces=0
     verbose=0
+    clipboard=0
 
     ## Initialize valid options
-    opt_string=abcdefhinptuv
+    opt_string=abcdefhinptuvx
 
     ## Usage function
     function print_usage(){
@@ -40,6 +41,7 @@ function slugify() {
       echo "   -t: treat existing dashes as spaces"
       echo "   -u: treat existing underscores as spaces (useful with -a, -c, or -d)"
       echo "   -v: verbose"
+      echo "   -x: copy to clipboard (WSL)"
     }
 
     ## For each provided option arg
@@ -59,6 +61,7 @@ function slugify() {
         t) dashes_to_spaces=1 ;;
         u) underscores_to_spaces=1 ;;
         v) verbose=1 ;;
+        x) clipboard=1 ;;
         *) return 1 ;;
       esac
     done
@@ -181,6 +184,10 @@ function slugify() {
         ## Print if verbose or dry_run is true
         if [ $verbose -eq 1 -o $dry_run -eq 1 ]; then
           echo "rename: $source -> $target"
+        fi
+        ## Copy to clipboard if clipboard is true
+        if [ $clipboard -eq 1 ]; then
+          echo "$target" | clip.exe
         fi
       fi
 
