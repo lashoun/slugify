@@ -48,51 +48,7 @@ function slugify() {
     echo "   -x: copy to clipboard (WSL)"
   }
 
-  ## For each provided option arg
-  while getopts $opt_string opt
-  do
-    case $opt in
-      a) dashes_omit_adjacent_spaces=1 ;;
-      b) dots_omit_adjacent_spaces=1 ;;
-      c) consolidate_spaces=1 ;;
-      d) space_replace_char='-' ;;
-      e) keep_special_characters=1 ;;
-      f) nonalnumordash_to_spaces=1 ;;
-      h) print_usage; return 0 ;;
-      i) ignore_case=1 ;;
-      j) interactive=1 ;;
-      n) dry_run=1 ;;
-      p) nonalnum_to_spaces=1 ;;
-      s) trim_lead_trail_spaces=0 ;;
-      t) dashes_to_spaces=1 ;;
-      u) underscores_to_spaces=1 ;;
-      v) verbose=1 ;;
-      x) clipboard=1 ;;
-      *) return 1 ;;
-    esac
-  done
-
-  ## Remove options from args
-  shift "$(( $OPTIND - 1 ))"
-
-  ## Unless source_file arg(s) found, print usage and return (0 to avoid breaking pipes)
-  if [[ -z "$1" ]]; then
-    print_usage
-    return 0
-  fi
-
-  ## Identify case insensitive filesystems
-  case_sensitive_filesystem=1
-  case $OSTYPE in
-    darwin*) case_sensitive_filesystem=0 ;; # OS X
-    *) ;; # Do nothing
-  esac
-
-  ## Notify if in dry_run mode
-  if [ $dry_run -eq 1 ]; then
-    echo "--- Begin dry run mode."
-  fi
-
+  ## Slug function
   function slug() {
     ## Initialize target
     target="$*"
@@ -182,7 +138,7 @@ function slugify() {
         mv "$source" "$target"
       fi
       ## Print if verbose or dry_run is true
-      if [ $verbose -eq 1 -o $dry_run -eq 1 ]; then
+      if [ $verbose -eq 1 || $dry_run -eq 1 ]; then
         echo "rename: $source -> $target"
       fi
       ## Copy to clipboard if clipboard is true
@@ -193,7 +149,54 @@ function slugify() {
 
   }
 
+  ## For each provided option arg
+  while getopts $opt_string opt
+  do
+    case $opt in
+      a) dashes_omit_adjacent_spaces=1 ;;
+      b) dots_omit_adjacent_spaces=1 ;;
+      c) consolidate_spaces=1 ;;
+      d) space_replace_char='-' ;;
+      e) keep_special_characters=1 ;;
+      f) nonalnumordash_to_spaces=1 ;;
+      h) print_usage; return 0 ;;
+      i) ignore_case=1 ;;
+      j) interactive=1 ;;
+      n) dry_run=1 ;;
+      p) nonalnum_to_spaces=1 ;;
+      s) trim_lead_trail_spaces=0 ;;
+      t) dashes_to_spaces=1 ;;
+      u) underscores_to_spaces=1 ;;
+      v) verbose=1 ;;
+      x) clipboard=1 ;;
+      *) return 1 ;;
+    esac
+  done
+
+  ## Remove options from args
+  shift "$(( $OPTIND - 1 ))"
+
+  ## Identify case insensitive filesystems
+  case_sensitive_filesystem=1
+  case $OSTYPE in
+    darwin*) case_sensitive_filesystem=0 ;; # OS X
+    *) ;; # Do nothing
+  esac
+
+    ## Unless source_file arg(s) found, print usage and return (0 to avoid breaking pipes)
+    if [[ $clipboard -eq 0 && -z "$1" ]]; then
+      print_usage
+      return 0
+    fi
+
+
+  ## Notify if in dry_run mode
+  if [ $dry_run -eq 1 ]; then
+    echo "--- Begin dry run mode."
+  fi
+
   if [ $clipboard -eq 0 ]; then
+
     ## For each file, directory, or glob
     for source in "$@"; do
 
