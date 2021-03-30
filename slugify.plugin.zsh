@@ -176,28 +176,29 @@ function slugify() {
   ## Remove options from args
   shift "$(( $OPTIND - 1 ))"
 
-    ## Remove options from args
-    shift "$(( $OPTIND - 1 ))"
+  ## Remove options from args
+  shift "$(( $OPTIND - 1 ))"
 
-    ## Unless source_file arg(s) found, print usage and return (0 to avoid breaking pipes)
-    if [[ $interactive -eq 0 && -z "$1" ]]; then
-      echo "Error: missing source file."
-      print_usage
-      return 0
-    fi
+  ## Unless source_file arg(s) found, print usage and return (0 to avoid breaking pipes)
+  if [[ $interactive -eq 0 && -z "$1" ]]; then
+    echo "Error: missing source file."
+    print_usage
+    return 0
+  fi
 
-    ## Identify case insensitive filesystems
-    case_sensitive_filesystem=1
-    case $OSTYPE in
-      darwin*) case_sensitive_filesystem=0 ;; # OS X
-      *) ;; # Do nothing
-    esac
+  ## Identify case insensitive filesystems
+  case_sensitive_filesystem=1
+  case $OSTYPE in
+    darwin*) case_sensitive_filesystem=0 ;; # OS X
+    *) ;; # Do nothing
+  esac
 
-    ## Notify if in dry_run mode
-    if [ $dry_run -eq 1 ]; then
-      echo "--- Begin dry run mode."
-    fi
+  ## Notify if in dry_run mode
+  if [ $dry_run -eq 1 ]; then
+    echo "--- Begin dry run mode."
+  fi
 
+  if [[ $interactive -eq 0 ]]; then
     ## For each file, directory, or glob
     for source in "$@"; do
 
