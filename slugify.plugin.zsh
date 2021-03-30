@@ -184,7 +184,7 @@ function slugify() {
   esac
 
     ## Unless source_file arg(s) found, print usage and return (0 to avoid breaking pipes)
-    if [[ $clipboard -eq 0 && -z "$1" ]]; then
+    if [[ $interactive -eq 0 && -z "$1" ]]; then
       print_usage
       return 0
     fi
@@ -195,7 +195,7 @@ function slugify() {
     echo "--- Begin dry run mode."
   fi
 
-  if [ $clipboard -eq 0 ]; then
+  if [ $interactive -eq 0 ]; then
 
     ## For each file, directory, or glob
     for source in "$@"; do
